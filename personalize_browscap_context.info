@@ -1,4 +1,4 @@
-name = Personalize Browscap
+name = Personalize Browscap Context
 description = Provides a visitor context plugin for targeting based on user agent detected by browscap.
 dependencies[] = browscap
 dependencies[] = personalize
