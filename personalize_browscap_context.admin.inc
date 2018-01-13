@@ -113,6 +113,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
     '#field_suffix' => '</div>',
   );
 
+  // Adding validation callback.
   $form['#validate'][] = 'personalize_browscap_context_admin_form_validate';
 
   // Adding preprocessing for submission.
@@ -125,8 +126,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
  * Validation callback for validating user agent options for context.
  */
 function personalize_browscap_context_admin_form_validate($form, &$form_state) {
-  // @TODO: add validating browsers.
-  // @TODO: add validating availability of contexts combinations.
+  // @TODO: Just leaving for now as placeholder.
 }
 
 /**

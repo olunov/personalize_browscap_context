@@ -27,9 +27,9 @@ function personalize_browscap_context_menu() {
  * Implements hook_page_build().
  */
 function personalize_browscap_context_page_build(&$page) {
-  $user_agent = browscap_get_browser();
+  $user_agent_properties = browscap_get_browser();
   $user_agent_params = personalize_browscap_context_get_user_agent_params();
-  $personalize_browscap_context = array_intersect_key($user_agent, $user_agent_params);
+  $personalize_browscap_context = array_intersect_key($user_agent_properties, $user_agent_params);
 
   $page['page_top']['personalize_browscap_context'] = array(
     '#attached' => array(
@@ -66,38 +66,47 @@ function personalize_browscap_context_personalize_visitor_context() {
  *
  * @return array
  *   Array of available options for each of parameter of user agent.
- *
- * @TODO: Add caching for loading options.
  */
 function personalize_browscap_context_get_all_browscap_options() {
-  // Get user agent params with titles.
-  $browscap_params = personalize_browscap_context_get_user_agent_params();
+  // Check the cache for browscap context options.
+  $cache = cache_get('personalize_browscap_context_options');
 
-  // Get machine names of user agent params.
-  $params = array_keys($browscap_params);
+  // Attempt to find a cached browscap context options.
+  // Otherwise store the browscap context options data in the cache.
+  if (!empty($cache) && ($cache->created > REQUEST_TIME - 60 * 60 * 24)) {
+    $browscap_context_options = $cache->data;
+  }
+  else {
+    // Get user agent params with titles.
+    $browscap_params = personalize_browscap_context_get_user_agent_params();
 
-  // Load all of records from browscap.
-  $query_result = db_select('browscap', 'b')
-    ->fields('b', array('data'))
-    ->execute();
+    // Get machine names of user agent params.
+    $params = array_keys($browscap_params);
 
-  // Fetch options and group by user agent params.
-  $options = array();
-  foreach ($query_result as $row) {
-    foreach ($params as $param) {
-      if (!isset($options[$param])) {
-        $options[$param] = array();
-      }
+    // Load all of records from browscap.
+    $query_result = db_select('browscap', 'b')
+      ->fields('b', array('data'))
+      ->execute();
 
-      if (!empty($row->data) && $data = unserialize($row->data)) {
-        if (!empty($data[$param]) && ($option = $data[$param]) && empty($options[$param][$option])) {
-          $options[$param][$option] = $option;
-        };
+    // Fetch options and group by user agent params.
+    $browscap_context_options = array();
+    foreach ($query_result as $row) {
+      foreach ($params as $param) {
+        if (!isset($browscap_context_options[$param])) {
+          $browscap_context_options[$param] = array();
+        }
+
+        if (!empty($row->data) && $data = unserialize($row->data)) {
+          if (!empty($data[$param]) && ($option = $data[$param]) && empty($browscap_context_options[$param][$option])) {
+            $browscap_context_options[$param][$option] = $option;
+          };
+        }
       }
     }
+    cache_set('personalize_browscap_context_options', $browscap_context_options);
   }
 
-  return $options;
+  return $browscap_context_options;
 }
 
 /**
