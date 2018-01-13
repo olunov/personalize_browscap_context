@@ -1,0 +1,6 @@
+name = Personalize Browscap
+description = Provides a visitor context plugin for targeting based on user agent detected by browscap.
+dependencies[] = browscap
+dependencies[] = personalize
+package = Personalization
+core = 7.x
