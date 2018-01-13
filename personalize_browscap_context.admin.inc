@@ -15,7 +15,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
   $form['personalize_browscap_context'] = array(
     '#title' => t('User Agent'),
     '#type' => 'fieldset',
-    '#collapsible' => TRUE,
+    '#collapsible' => FALSE,
     '#collapsed' => FALSE,
     '#tree' => TRUE,
   );
@@ -115,6 +115,8 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
 
   $form['#validate'][] = 'personalize_browscap_context_admin_form_validate';
   $form['#submit'][] = 'personalize_browscap_context_admin_form_submit';
+
+  return $form;
 }
 
 /**
