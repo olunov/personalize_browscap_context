@@ -114,7 +114,9 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
   );
 
   $form['#validate'][] = 'personalize_browscap_context_admin_form_validate';
-  //$form['#submit'][] = 'personalize_browscap_context_admin_form_submit';
+
+  // Adding preprocessing for submission.
+  $form['#submit'][] = 'personalize_browscap_context_admin_form_submit';
 
   return system_settings_form($form);
 }
@@ -125,4 +127,21 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
 function personalize_browscap_context_admin_form_validate($form, &$form_state) {
   // @TODO: add validating browsers.
   // @TODO: add validating availability of contexts combinations.
+}
+
+/**
+ * Submission callback for preprocessing saving form settings.
+ */
+function personalize_browscap_context_admin_form_submit($form, &$form_state) {
+  $personalize_browscap_context = array();
+
+  // Clean up empty values of checkboxes.
+  if (!empty($form_state['values']['personalize_browscap_context'])) {
+    $personalize_browscap_context = $form_state['values']['personalize_browscap_context'];
+    foreach (array('browser', 'platform', 'device_type') as $param) {
+      $options_values = array_filter($personalize_browscap_context[$param]['list']);
+      $personalize_browscap_context[$param]['list'] = $options_values;
+    }
+  }
+  $form_state['values']['personalize_browscap_context'] = $personalize_browscap_context;
 }

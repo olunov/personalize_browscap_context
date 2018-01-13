@@ -59,7 +59,7 @@ class BrowscapContext extends PersonalizeContextBase {
     $possible_values = array();
     $options = $this->getOptions();
 
-    $fields_contexts_options = _personalize_browscap_get_fields_contexts_options();
+    $fields_contexts_options = _personalize_browscap_context_get_fields_contexts_options();
 
     // @TODO: refactor it.
     foreach ($options as $name => $info) {
