@@ -9,7 +9,7 @@
  * Returns form for managing loading user agent's parameters to context.
  */
 function personalize_browscap_context_admin_form($form, &$form_state) {
-  $personalize_browscap_contexts = variable_get('personalize_browscap_contexts', array());
+  $personalize_browscap_context = variable_get('personalize_browscap_context', array());
   $user_agent_options = personalize_browscap_context_get_all_browscap_options();
 
   $form['personalize_browscap_context'] = array(
@@ -28,7 +28,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
     '#collapsed' => TRUE,
   );
 
-  $browser_visibility = isset($personalize_browscap_contexts['browser']['visibility']) ? $personalize_browscap_contexts['browser']['visibility'] : 0;
+  $browser_visibility = isset($personalize_browscap_context['browser']['visibility']) ? $personalize_browscap_context['browser']['visibility'] : 0;
   $form['personalize_browscap_context']['browser']['visibility'] = array(
     '#title' => t('Show specific browsers'),
     '#type' => 'radios',
@@ -40,7 +40,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
   );
 
   asort($user_agent_options['browser'], SORT_NATURAL);
-  $browser_list = isset($personalize_browscap_contexts['browser']['list']) ? $personalize_browscap_contexts['browser']['list'] : array();
+  $browser_list = isset($personalize_browscap_context['browser']['list']) ? $personalize_browscap_context['browser']['list'] : array();
   $form['personalize_browscap_context']['browser']['list'] = array(
     '#title' => t('Browsers List'),
     '#type' => 'checkboxes',
@@ -59,7 +59,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
     '#collapsed' => TRUE,
   );
 
-  $platform_visibility = isset($personalize_browscap_contexts['platform']['visibility']) ? $personalize_browscap_contexts['platform']['visibility'] : 0;
+  $platform_visibility = isset($personalize_browscap_context['platform']['visibility']) ? $personalize_browscap_context['platform']['visibility'] : 0;
   $form['personalize_browscap_context']['platform']['visibility'] = array(
     '#title' => t('Show specific platforms'),
     '#type' => 'radios',
@@ -71,7 +71,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
   );
 
   asort($user_agent_options['platform'], SORT_NATURAL);
-  $platform_list = isset($personalize_browscap_contexts['platform']['list']) ? $personalize_browscap_contexts['platform']['list'] : array();
+  $platform_list = isset($personalize_browscap_context['platform']['list']) ? $personalize_browscap_context['platform']['list'] : array();
   $form['personalize_browscap_context']['platform']['list'] = array(
     '#title' => t('Platforms List'),
     '#type' => 'checkboxes',
@@ -90,7 +90,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
     '#collapsed' => TRUE,
   );
 
-  $device_type_visibility = isset($personalize_browscap_contexts['device_type']['visibility']) ? $personalize_browscap_contexts['device_type']['visibility'] : 0;
+  $device_type_visibility = isset($personalize_browscap_context['device_type']['visibility']) ? $personalize_browscap_context['device_type']['visibility'] : 0;
   $form['personalize_browscap_context']['device_type']['visibility'] = array(
     '#title' => t('Show specific device types'),
     '#type' => 'radios',
@@ -102,7 +102,7 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
   );
 
   asort($user_agent_options['device_type'], SORT_NATURAL);
-  $device_type_list = isset($personalize_browscap_contexts['device_type']['list']) ? $personalize_browscap_contexts['device_type']['list'] : array();
+  $device_type_list = isset($personalize_browscap_context['device_type']['list']) ? $personalize_browscap_context['device_type']['list'] : array();
   $form['personalize_browscap_context']['device_type']['list'] = array(
     '#title' => t('Device Types List'),
     '#type' => 'checkboxes',
@@ -114,9 +114,9 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
   );
 
   $form['#validate'][] = 'personalize_browscap_context_admin_form_validate';
-  $form['#submit'][] = 'personalize_browscap_context_admin_form_submit';
+  //$form['#submit'][] = 'personalize_browscap_context_admin_form_submit';
 
-  return $form;
+  return system_settings_form($form);
 }
 
 /**
@@ -125,19 +125,4 @@ function personalize_browscap_context_admin_form($form, &$form_state) {
 function personalize_browscap_context_admin_form_validate($form, &$form_state) {
   // @TODO: add validating browsers.
   // @TODO: add validating availability of contexts combinations.
-}
-
-/**
- * Submission callback for saving user agent options for context.
- */
-function personalize_browscap_context_admin_form_submit($form, &$form_state) {
-  $personalize_browscap_contexts = array();
-  if (!empty($form_state['values']['personalize_browscap_context'])) {
-    $personalize_browscap_contexts = $form_state['values']['personalize_browscap_context'];
-    foreach (array('browser', 'platform', 'device_type') as $param) {
-      $options_values = array_filter($personalize_browscap_contexts[$param]['list']);
-      $personalize_browscap_contexts[$param]['list'] = $options_values;
-    }
-  }
-  variable_set('personalize_browscap_contexts', $personalize_browscap_contexts);
 }

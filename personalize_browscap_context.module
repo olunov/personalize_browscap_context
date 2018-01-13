@@ -119,7 +119,7 @@ function personalize_browscap_context_get_user_agent_params() {
  * Return browsers available for context.
  */
 function _personalize_browscap_context_get_fields_contexts_options() {
-  $personalize_browscap_contexts = variable_get('personalize_browscap_contexts', array());
+  $personalize_browscap_context = variable_get('personalize_browscap_context', array());
   $browscap_options = personalize_browscap_context_get_all_browscap_options();
   $fields_contexts_options = array();
   foreach ($browscap_options as $param => $browscap_param_options) {
@@ -128,7 +128,7 @@ function _personalize_browscap_context_get_fields_contexts_options() {
       case 'browser':
       case 'platform':
       case 'device_type':
-        $context_settings = $personalize_browscap_contexts[$param];
+        $context_settings = $personalize_browscap_context[$param];
         if ($context_settings['visibility'] === '0') {
           $contexts_options = array_diff($browscap_param_options, $context_settings['list']);
         }
