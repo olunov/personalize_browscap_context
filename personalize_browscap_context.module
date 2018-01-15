@@ -45,7 +45,7 @@ function personalize_browscap_context_page_build(&$page) {
 }
 
 /**
- * Implements hook_personalize_visitor_contexts().
+ * Implements hook_personalize_visitor_context().
  */
 function personalize_browscap_context_personalize_visitor_context() {
   $info = array();
