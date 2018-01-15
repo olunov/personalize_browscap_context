@@ -19,7 +19,7 @@ function personalize_browscap_context_menu() {
     'file' => 'personalize_browscap_context.admin.inc',
     'type' => MENU_LOCAL_TASK,
   );
-  
+
   return $items;
 }
 
@@ -40,7 +40,7 @@ function personalize_browscap_context_page_build(&$page) {
           'type' => 'setting',
         ),
       ),
-    )
+    ),
   );
 }
 
@@ -62,7 +62,7 @@ function personalize_browscap_context_personalize_visitor_context() {
 }
 
 /**
- * Handler for loading available options for user agent parameters from browscap.
+ * Handler for loading available options for parameters from browscap.
  *
  * @return array
  *   Array of available options for each of parameter of user agent.
@@ -137,12 +137,17 @@ function _personalize_browscap_context_get_fields_contexts_options() {
       case 'browser':
       case 'platform':
       case 'device_type':
-        $context_settings = $personalize_browscap_context[$param];
-        if ($context_settings['visibility'] === '0') {
-          $contexts_options = array_diff($browscap_param_options, $context_settings['list']);
+        if (!empty($personalize_browscap_context[$param])) {
+          $context_settings = $personalize_browscap_context[$param];
+          if ($context_settings['visibility'] === '0') {
+            $contexts_options = array_diff($browscap_param_options, $context_settings['list']);
+          }
+          else {
+            $contexts_options = array_combine($context_settings['list'], $context_settings['list']);
+          }
         }
         else {
-          $contexts_options = array_combine($context_settings['list'], $context_settings['list']);
+          $contexts_options = $browscap_param_options;
         }
         break;
 
