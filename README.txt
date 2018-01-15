@@ -1,15 +1,15 @@
 INTRODUCTION
 ------------
-This module provides personalize contexts based on browscap data. There
-are:
- * Browser (IE, Chromem Firefox, etc.)
+This module provides personalize contexts based on browscap data. The
+available browscap properties are:
+ * Browser (IE, Chrome, Firefox, etc.)
  * Platform (Win7, Win10, iOS, Android, Linux, etc. )
  * Is Mobile Device
  * Is Tablet
- * Device Type (Decktop, Console, Mobile Device, Tablet, etc.)
-Based on options for each of those contexts it is possible to setup
-showing personalized content. Learn more about personalize README.txt
-and project page of personalize module.
+ * Device Type (Desktop, Console, Mobile Device, Tablet, etc.)
+Based on the options for each of these contexts it is possible to use
+them to define when personalized content will be shown. Learn more about
+personalization in README.txt and project page of personalize module.
 
 REQUIREMENTS
 ------------
