@@ -5,6 +5,9 @@
  * Provides a visitor context plugin for user agents (browsers options).
  */
 
+/**
+ * Defines Browscap contexts for managing personalization.
+ */
 class BrowscapContext extends PersonalizeContextBase {
 
   /**
@@ -112,4 +115,5 @@ class BrowscapContext extends PersonalizeContextBase {
 
     return $possible_values;
   }
+
 }
