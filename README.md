@@ -17,7 +17,6 @@ This module requires the following module(s):
  * Browscap (https://www.drupal.org/project/browscap)
  * Personalize (https://www.drupal.org/project/personalize)
 
-
 INSTALLATION
 ------------
  * Install as you would normally install a contributed Drupal module. See:
